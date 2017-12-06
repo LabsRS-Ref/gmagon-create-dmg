@@ -13,7 +13,8 @@ const cli = meow(`
 	  $ create-dmg <app>
 
 	Example
-	  $ create-dmg 'Lungo.app'
+	  $ create-dmg 'romanysoft.app'
+	  $ create-dmg 'romanysoft.app' 'romanysoft'
 `);
 
 if (process.platform !== 'darwin') {
@@ -27,6 +28,15 @@ if (cli.input.length === 0) {
 }
 
 const appPath = path.resolve(cli.input[0]);
+var appVendorType = 'gmagon';
+const appVendors = ['gmagon', 'romanysoft'];
+if (cli.input.length > 1) {
+	appVendorType = cli.input[1];
+	if (appVendors.indexOf(appVendorType) < 0) {
+		console.error('You must special the vendor type', appVendors);
+		process.exit(1);
+	}
+}
 
 let infoPlist;
 try {
@@ -44,10 +54,18 @@ const appInfo = plist.parse(infoPlist);
 const appName = appInfo.CFBundleName;
 const appIconName = appInfo.CFBundleIconFile.replace(/\.icns/, '');
 const appVersion = appInfo.CFBundleShortVersionString;
-const dmgPath = `${appName.replace(/ /g, '-')}-${appInfo.CFBundleShortVersionString}.dmg`;
+const dmgPath = `${appName.replace(/ /g, '-')}-v${appInfo.CFBundleShortVersionString}-mac.dmg`;
 
 const ora = new Ora('Creating DMG');
 ora.start();
+
+// process the icon path and background_path
+var icon_path = path.join(__dirname, 'assets/dmg_logo.icns');
+var background_path = path.join(__dirname, 'assets/dmg-background.png');
+if (appVendorType === 'romanysoft') {
+	icon_path = path.join(__dirname, 'assets/dmg_logo-romanysoft.icns');
+	background_path = path.join(__dirname, 'assets/dmg-background-romanysoft.png');
+}
 
 const ee = appdmg({
 	target: dmgPath,
@@ -55,10 +73,10 @@ const ee = appdmg({
 	specification: {
 		title: `${appName}-${appVersion}`,
 		// icon: path.join(appPath, 'Contents/Resources', `${appIconName}.icns`),
-                icon: path.join(__dirname, 'assets/dmg_logo.icns'),
+                icon: icon_path,
 		// Use transparent background and `background-color` option when this is fixed:
 		// https://github.com/LinusU/node-appdmg/issues/135
-		background: path.join(__dirname, 'assets/dmg-background.png'),
+		background: background_path,
 		'icon-size': 160,
 		format: 'UDBZ',
 		window: {
