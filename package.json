@@ -1,6 +1,6 @@
 {
   "name": "create-dmg",
-  "version": "20171206.9.18",
+  "version": "20171206.9.29",
   "description": "Create a good-looking DMG for your macOS app in seconds",
   "license": "MIT",
   "repository": "LabsRS-Ref/gmagon-create-dmg",
@@ -8,6 +8,9 @@
     "name": "GMagon",
     "email": "support@gmagon.com",
     "url": "gmagon.com"
+  },
+  "note":{
+    "steup-from-path": "npm i -g {youpath}, eg. npm i -g ./"
   },
   "bin": {
     "create-dmg": "cli.js"

@@ -54,7 +54,7 @@ const appInfo = plist.parse(infoPlist);
 const appName = appInfo.CFBundleName;
 const appIconName = appInfo.CFBundleIconFile.replace(/\.icns/, '');
 const appVersion = appInfo.CFBundleShortVersionString;
-const dmgPath = `${appName.replace(/ /g, '-')}-v${appInfo.CFBundleShortVersionString}-mac.dmg`;
+const dmgPath = `${appName.replace(/ /g, '-')}-v${appInfo.CFBundleShortVersionString}-mac.dmg`.toLocaleLowerCase();
 
 const ora = new Ora('Creating DMG');
 ora.start();
@@ -122,7 +122,7 @@ ee.on('finish', () => {
 		}
 
 		ora.info(`Code signing identity: ${match[1]}`).start();
-		ora.succeed('DMG created');
+		ora.succeed('DMG created! path is ' + dmgPath);
 	}).catch(err => {
 		ora.fail(`Code signing failed. The DMG is fine, just not code signed.\n${err.stderr.trim()}`);
 		process.exit(1);
