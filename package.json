@@ -19,7 +19,8 @@
     "node": ">=4"
   },
   "scripts": {
-    "test": "xo && ava"
+    "test": "xo && ava",
+    "remove:yarn.lock": "git rm --cached -r -- yarn.lock"
   },
   "files": [
     "cli.js",
