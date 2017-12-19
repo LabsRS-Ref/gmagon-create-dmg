@@ -1,6 +1,6 @@
 {
   "name": "create-dmg",
-  "version": "20171210.9.49",
+  "version": "20171219.14.12",
   "description": "Create a good-looking DMG for your macOS app in seconds",
   "license": "MIT",
   "repository": "LabsRS-Ref/gmagon-create-dmg",
